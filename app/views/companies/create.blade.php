@@ -255,7 +255,7 @@
 								<div class="input-group">
 									<select class="form-control" name="add_year_end" id="add_year_end">
 										<option value="" >Year End</option>
-										<?php foreach (range(1950, date('Y')) as $key => $value): ?>
+										<?php foreach (range((date('Y') - 10), date('Y')) as $key => $value): ?>
 										<option value="<?php echo $value; ?>" ><?php echo $value; ?></option>
 										<?php endforeach ?>
 									</select>
@@ -541,6 +541,19 @@
 		                },
 
 		                submitHandler: function (form) {
+							var liability_amount_total = 0
+							$("input[name='liability_amount[]']").each(function(){
+								liability_amount_total = liability_amount_total + parseInt($(this).val());
+							});
+							var asset_amount_total = 0
+							$("input[name='asset_amount[]']").each(function(){
+								asset_amount_total = asset_amount_total + parseInt($(this).val());
+							});
+							
+							if(asset_amount_total != liability_amount_total){
+								alert("Balance Sheet need to be tally");
+								return false;
+							}
 		                    //success3.show();
 		                    error3.hide();
 		                    //companySellForm.submit(); // submit the form
